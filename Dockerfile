@@ -14,6 +14,8 @@ RUN npm run build
 
 FROM nginx:stable-bullseye-perl
 
-RUN mkdir /www/build/
+RUN mkdir -p /www/build/
 
 COPY --from=build /app/dist /www/build
+
+COPY ./config.conf /etc/nginx/conf.d/default.conf
