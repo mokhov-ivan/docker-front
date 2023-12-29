@@ -1,4 +1,4 @@
-FROM node
+FROM node:slim as build
 
 RUN mkdir /app/
 
@@ -8,4 +8,12 @@ COPY . .
 
 RUN npm install
 
-CMD ["npx", "vite", "--host", "80"]
+RUN npm run build
+
+
+
+FROM nginx:stable-bullseye-perl
+
+RUN mkdir /www/build/
+
+COPY --from=build /app/dist /www/build
